@@ -6,6 +6,8 @@ import Checkbox from "../../components/form/input/Checkbox";
 import { ChevronLeftIcon } from "lucide-react";
 import { Eye } from "lucide-react";
 import { EyeOff } from "lucide-react";
+import { account } from "../../lib/appwrite";
+import { ID } from "appwrite";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +19,7 @@ const SignUp = () => {
     password: "",
   });
 
-  function submit() {
+  async function submit() {
     const { firstName, lastName, email, password } = signUpData;
 
     if (!firstName && !lastName && !email && !password) {
@@ -38,6 +40,23 @@ const SignUp = () => {
         "Password must be at least 8 characters long and contain at least one letter and one number"
       );
       return;
+    }
+
+    try {
+      const user = await account.create(
+        ID.unique(),
+        email,
+        password,
+        firstName + " " + lastName
+      );
+
+      await account.createEmailPasswordSession(user.email, password);
+
+      if (!user) throw new Error("something went wrong while creating a user");
+
+      alert("Successful");
+    } catch (err) {
+      console.log(err);
     }
   }
 
