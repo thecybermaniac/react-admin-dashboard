@@ -4,15 +4,43 @@ import Label from "../../components/form/Label";
 import Input from "../../components/form/input/InputField";
 import Checkbox from "../../components/form/input/Checkbox";
 import { ChevronLeftIcon } from "lucide-react";
-import { EyeIcon } from "lucide-react";
-import { EyeClosedIcon } from "lucide-react";
-import { EyeOffIcon } from "lucide-react";
 import { Eye } from "lucide-react";
 import { EyeOff } from "lucide-react";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [signUpData, setSignUpData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
+  function submit() {
+    const { firstName, lastName, email, password } = signUpData;
+
+    if (!firstName && !lastName && !email && !password) {
+      console.log("All fields are required");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      console.log("Invalid email address");
+      return;
+    }
+
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      console.log(
+        "Password must be at least 8 characters long and contain at least one letter and one number"
+      );
+      return;
+    }
+  }
+
   return (
     <div className="flex flex-col flex-1 w-full overflow-y-auto lg:w-1/2 no-scrollbar">
       <div className="w-full max-w-md mx-auto mb-5 sm:pt-10">
@@ -100,9 +128,15 @@ const SignUp = () => {
                       id="fname"
                       name="fname"
                       placeholder="Enter your first name"
+                      value={signUpData.firstName}
+                      onChange={(e) =>
+                        setSignUpData((prev) => ({
+                          ...prev,
+                          firstName: e.target.value,
+                        }))
+                      }
                     />
                   </div>
-                  {/* <!-- Last Name --> */}
                   <div className="sm:col-span-1">
                     <Label>
                       Last Name<span className="text-error-500">*</span>
@@ -112,6 +146,13 @@ const SignUp = () => {
                       id="lname"
                       name="lname"
                       placeholder="Enter your last name"
+                      value={signUpData.lastName}
+                      onChange={(e) =>
+                        setSignUpData((prev) => ({
+                          ...prev,
+                          lastName: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                 </div>
@@ -125,6 +166,13 @@ const SignUp = () => {
                     id="email"
                     name="email"
                     placeholder="Enter your email"
+                    value={signUpData.email}
+                    onChange={(e) =>
+                      setSignUpData((prev) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }))
+                    }
                   />
                 </div>
                 {/* <!-- Password --> */}
@@ -136,6 +184,13 @@ const SignUp = () => {
                     <Input
                       placeholder="Enter your password"
                       type={showPassword ? "text" : "password"}
+                      value={signUpData.password}
+                      onChange={(e) =>
+                        setSignUpData((prev) => ({
+                          ...prev,
+                          password: e.target.value,
+                        }))
+                      }
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
@@ -169,7 +224,11 @@ const SignUp = () => {
                 </div>
                 {/* <!-- Button --> */}
                 <div>
-                  <button className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
+                  <button
+                    type="button"
+                    onClick={submit}
+                    className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600"
+                  >
                     Sign Up
                   </button>
                 </div>
@@ -180,7 +239,7 @@ const SignUp = () => {
               <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
                 Already have an account? {""}
                 <Link
-                  to="/signin"
+                  to="/auth/sign-in"
                   className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
                 >
                   Sign In
