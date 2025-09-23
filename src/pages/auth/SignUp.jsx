@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Label from "../../components/form/Label";
 import Input from "../../components/form/input/InputField";
 import Checkbox from "../../components/form/input/Checkbox";
@@ -10,8 +10,10 @@ import { account } from "../../lib/appwrite";
 import { ID } from "appwrite";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [signUpData, setSignUpData] = useState({
     firstName: "",
     lastName: "",
@@ -42,6 +44,8 @@ const SignUp = () => {
       return;
     }
 
+    setIsLoading(true);
+
     try {
       const user = await account.create(
         ID.unique(),
@@ -54,9 +58,15 @@ const SignUp = () => {
 
       if (!user) throw new Error("something went wrong while creating a user");
 
-      alert("Successful");
+      await account.createVerification(
+        "http://localhost:5173/auth/email-verification"
+      );
+
+      return navigate("/auth/verify-email");
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -246,9 +256,10 @@ const SignUp = () => {
                   <button
                     type="button"
                     onClick={submit}
-                    className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600"
+                    disabled={!isChecked || isLoading}
+                    className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600 disabled:opacity-75"
                   >
-                    Sign Up
+                    {isLoading ? "Signing Up..." : "Sign Up"}
                   </button>
                 </div>
               </div>
