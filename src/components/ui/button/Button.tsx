@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 
 interface ButtonProps {
   children: ReactNode; // Button text or content
+  type: "submit" | "button" | "reset" | undefined;
   size?: "sm" | "md"; // Button size
   variant?: "primary" | "outline"; // Button variant
   startIcon?: ReactNode; // Icon before the text
@@ -13,6 +14,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({
   children,
+  type = "submit",
   size = "md",
   variant = "primary",
   startIcon,
@@ -44,6 +46,7 @@ const Button: React.FC<ButtonProps> = ({
       }`}
       onClick={onClick}
       disabled={disabled}
+      type={type}
     >
       {startIcon && <span className="flex items-center">{startIcon}</span>}
       {children}
