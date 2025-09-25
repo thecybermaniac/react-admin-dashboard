@@ -1,9 +1,36 @@
 import React from "react";
 import GridShape from "../../components/common/GridShape";
 import ThemeTogglerTwo from "../../components/common/ThemeTogglerTwo";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { account } from "../../lib/appwrite";
+import Loader from "../Loader";
+import { useEffect } from "react";
 
 export default function AuthLayout() {
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsLoading(true);
+    async function fetchUser() {
+      try {
+        const appwriteUser = await account.get();
+        setUser(appwriteUser);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchUser();
+  }, []);
+
+  if (isLoading) return <Loader />;
+
+  if (user) return navigate("/");
+
   return (
     <div className="relative p-6 bg-white z-1 dark:bg-gray-900 sm:p-0">
       <div className="relative flex flex-col justify-between w-full h-screen lg:flex-row dark:bg-gray-900 sm:p-0">

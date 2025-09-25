@@ -1,11 +1,24 @@
 import { ChevronLeftIcon } from "lucide-react";
 import { Mail } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
+import { account } from "../../lib/appwrite";
 
 const Verification = () => {
   const [param, setParam] = useSearchParams();
 
   const email = param.get("user");
+
+  async function resendEmail() {
+    try {
+      await account.createVerification(
+        "http://localhost:5173/auth/email-verification"
+      );
+
+      console.log("Email sent successful");
+    } catch (error) {
+      console.log("Error occured", error);
+    }
+  }
   return (
     <div className="flex flex-col flex-1 w-full overflow-y-autolg:w-1/2 no-scrollbar">
       <div className="w-full max-w-md mx-auto mb-5 sm:pt-10">
@@ -18,7 +31,11 @@ const Verification = () => {
           <p className="mt-2 text-sm text-center text-gray-500 dark:text-gray-300">
             We have sent a verification link to your email, {email}. Please
             verify before you can continue. Didn't get email?
-            <button variant="link" className="text-brand-600 mx-2">
+            <button
+              variant="link"
+              className="text-brand-600 mx-2"
+              onClick={resendEmail}
+            >
               Resend.
             </button>
           </p>

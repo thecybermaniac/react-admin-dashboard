@@ -1,10 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignUp from "./pages/auth/SignUp";
 import SignIn from "./pages/auth/SignIn";
-import Home from "./pages/Home";
+import Home from "./pages/dashboard/Home";
 import AuthLayout from "./components/layout/AuthLayout";
 import Verification from "./pages/auth/Verification";
 import Verify from "./pages/auth/Verify";
+import AppLayout from "./components/layout/AppLayout";
 
 function App() {
   return (
@@ -16,7 +17,9 @@ function App() {
           <Route path="verify-email" element={<Verification />} />
           <Route path="email-verification" element={<Verify />} />
         </Route>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<AppLayout />}>
+          <Route path="/" index element={<Home />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
