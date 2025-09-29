@@ -6,7 +6,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { account } from "../../lib/appwrite";
-import { Loader } from "lucide-react";
+import Loader from "../Loader";
 
 const LayoutContent = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
