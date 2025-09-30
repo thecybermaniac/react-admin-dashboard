@@ -6,6 +6,8 @@ import AuthLayout from "./components/layout/AuthLayout";
 import Verification from "./pages/auth/Verification";
 import Verify from "./pages/auth/Verify";
 import AppLayout from "./components/layout/AppLayout";
+import Products from "./pages/dashboard/Products";
+import Orders from "./pages/dashboard/Orders";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         </Route>
         <Route path="/" element={<AppLayout />}>
           <Route path="/" index element={<Home />} />
+          <Route path="products" element={<Products />} />
+          <Route path="orders" element={<Orders />} />
         </Route>
       </Routes>
     </BrowserRouter>

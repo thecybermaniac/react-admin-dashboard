@@ -1,8 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import { account } from "../../lib/appwrite";
-import { useState } from "react";
-import { useEffect } from "react";
-import Loader from "../../components/Loader";
 import MonthlySalesChart from "../../components/ecommerce/MonthlySalesChart";
 import EcommerceMetrics from "../../components/ecommerce/EcommerceMetrics";
 import PageMeta from "../../components/common/PageMeta";
