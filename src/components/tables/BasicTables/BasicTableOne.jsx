@@ -1,7 +1,22 @@
 import Badge from "../../ui/badge/Badge";
-import { Table, TableBody, TableCell, TableHeader, TableRow } from "../../ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from "../../ui/table";
 import Button from "../../ui/button/Button";
 import { PlusIcon } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { useState } from "react";
 
 // Define the table data using the interface
 const tableData = [
@@ -53,7 +68,7 @@ const tableData = [
 ];
 
 const BasicTableOne = () => {
-
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
       <div className="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
@@ -102,13 +117,15 @@ const BasicTableOne = () => {
             </svg>
             Filter
           </button>
-        <Button
-          size="sm"
-          variant="primary"
-          startIcon={<PlusIcon className="size-5" />}
-        >
-          Add Product
-        </Button>
+          <Button
+            size="sm"
+            variant="primary"
+            startIcon={<PlusIcon className="size-5" />}
+            type="button"
+            onClick={() => setIsOpen(true)}
+          >
+            Add Product
+          </Button>
         </div>
       </div>
       <div className="max-w-full overflow-x-auto">
@@ -191,9 +208,22 @@ const BasicTableOne = () => {
             ))}
           </TableBody>
         </Table>
+
+        {/* Add product sheet */}
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetContent className="bg-white">
+            <SheetHeader>
+              <SheetTitle>Are you absolutely sure?</SheetTitle>
+              <SheetDescription>
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </SheetDescription>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>
       </div>
     </div>
   );
-}
+};
 
 export default BasicTableOne;

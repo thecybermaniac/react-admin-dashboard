@@ -8,6 +8,7 @@ import Verify from "./pages/auth/Verify";
 import AppLayout from "./components/layout/AppLayout";
 import Products from "./pages/dashboard/Products";
 import Orders from "./pages/dashboard/Orders";
+import Inbox from "./pages/dashboard/Inbox";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
           <Route path="/" index element={<Home />} />
           <Route path="products" element={<Products />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="inbox" element={<Inbox
+           />} />
         </Route>
       </Routes>
     </BrowserRouter>
