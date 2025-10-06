@@ -1,6 +1,7 @@
 import InboxItem from "@/components/InboxItem";
 import Button from "@/components/ui/button/Button";
 import { Mailbox } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Pencil } from "lucide-react";
 import { Search } from "lucide-react";
 import { MoreVertical } from "lucide-react";
@@ -9,7 +10,7 @@ import React from "react";
 const InboxItems = [
   {
     icon: Mailbox,
-    title: 
+    title: "Inbox"
   }
 ]
 
@@ -54,7 +55,7 @@ const ChatLayout = () => {
                   <h2 className="uppercase text-xs">Mailbox</h2>
 
                   <div className="flex flex-col gap-4 w-full">
-                    <InboxItem />
+                    <InboxItem title="Inbox" icon={Mail} sum={40} />
                   </div>
                 </div>
               </div>
