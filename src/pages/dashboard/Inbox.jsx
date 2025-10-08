@@ -1,18 +1,26 @@
-import InboxItem from "@/components/InboxItem";
+import ArchiveItem from "@/components/Inbox/ArchiveItem";
+import BlankItem from "@/components/Inbox/BlankItem";
+import DraftsItem from "@/components/Inbox/DraftsItem";
+import ImportantItem from "@/components/Inbox/ImportantItem";
+import InboxItem from "@/components/Inbox/InboxItem";
+import InvoiceItem from "@/components/Inbox/InvoiceItem";
+import PaymentItem from "@/components/Inbox/PaymentItem";
+import PersonalItem from "@/components/Inbox/PersonalItem";
+import SentItem from "@/components/Inbox/SentItem";
+import SpamItem from "@/components/Inbox/SpamItem";
+import StarredItem from "@/components/Inbox/StarredItem";
+import TrashItem from "@/components/Inbox/TrashItem.";
+import WorkItem from "@/components/Inbox/WorkItem";
 import Button from "@/components/ui/button/Button";
-import { Mailbox } from "lucide-react";
+import { Trash2Icon } from "lucide-react";
+import { SendHorizontalIcon } from "lucide-react";
+import { ArchiveIcon } from "lucide-react";
+import { Tag } from "lucide-react";
+import { StarIcon } from "lucide-react";
 import { Mail } from "lucide-react";
+import { MailboxIcon } from "lucide-react";
 import { Pencil } from "lucide-react";
-import { Search } from "lucide-react";
-import { MoreVertical } from "lucide-react";
 import React from "react";
-
-const InboxItems = [
-  {
-    icon: Mailbox,
-    title: "Inbox"
-  }
-]
 
 const ChatLayout = () => {
   return (
@@ -51,11 +59,63 @@ const ChatLayout = () => {
                     />
                   </svg>
                 </button>
-                <div className="space-y-2 w-full">
+                <div className="space-y-2 w-full overflow-y-auto h-[calc(100vh-250px)]">
                   <h2 className="uppercase text-xs">Mailbox</h2>
 
-                  <div className="flex flex-col gap-4 w-full">
-                    <InboxItem title="Inbox" icon={Mail} sum={40} />
+                  <div>
+                    <InboxItem title="Inbox" icon={MailboxIcon} sum={3} />
+                  </div>
+
+                  <div>
+                    <SentItem title="Sent" icon={SendHorizontalIcon} />
+                  </div>
+
+                  <div>
+                    <DraftsItem title="Drafts" icon={Mail} />
+                  </div>
+
+                  <div>
+                    <SpamItem title="Spam" icon={MailboxIcon} sum={2} />
+                  </div>
+
+                  <div>
+                    <TrashItem title="Trash" icon={Trash2Icon} />
+                  </div>
+
+                  <div>
+                    <ArchiveItem title="Archive" icon={ArchiveIcon} />
+                  </div>
+
+                  <h2 className="uppercase text-xs">Filter</h2>
+
+                  <div>
+                    <StarredItem title="Starred" icon={StarIcon} />
+                  </div>
+
+                  <div>
+                    <ImportantItem title="Important" icon={MailboxIcon} />
+                  </div>
+
+                  <h2 className="uppercase text-xs">Label</h2>
+
+                  <div>
+                    <PersonalItem title="Personal" icon={Tag} />
+                  </div>
+
+                  <div>
+                    <WorkItem title="Work" icon={Tag} />
+                  </div>
+
+                  <div>
+                    <PaymentItem title="Payment" icon={Tag} />
+                  </div>
+
+                  <div>
+                    <InvoiceItem title="Invoice" icon={Tag} />
+                  </div>
+
+                  <div>
+                    <BlankItem title="Blank" icon={Tag} />
                   </div>
                 </div>
               </div>
@@ -67,16 +127,10 @@ const ChatLayout = () => {
             <div className="sticky flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-800 xl:px-6">
               <div className="flex items-center gap-3">
                 <div className="relative h-12 w-full max-w-[48px] rounded-full">
-                  <img
-                    alt="profile"
-                    src="./images/user/user-17.jpg"
-                    className="object-cover object-center w-full h-full overflow-hidden rounded-full"
-                  />
-                  <span className="absolute bottom-0 right-0 block h-3 w-3 rounded-full border-[1.5px] border-white bg-success-500 dark:border-gray-900"></span>
+                  
+                  
                 </div>
-                <h5 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Lindsey Curtis
-                </h5>
+                
               </div>
             </div>
             {/* Messages + input go here */}
