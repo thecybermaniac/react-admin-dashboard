@@ -11,28 +11,28 @@ import Loader from "../Loader";
 const LayoutContent = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
-  const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  // const [user, setUser] = useState(null);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    setIsLoading(true);
-    async function fetchUser() {
-      try {
-        const appwriteUser = await account.get();
-        setUser(appwriteUser);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   async function fetchUser() {
+  //     try {
+  //       const appwriteUser = await account.get();
+  //       setUser(appwriteUser);
+  //     } catch (error) {
+  //       console.error("Error fetching user:", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   }
+  //   fetchUser();
+  // }, []);
 
-  if (isLoading) return <Loader />;
+  // if (isLoading) return <Loader />;
 
-  if (!user) return navigate("/auth/sign-in");
+  // if (!user) return navigate("/auth/sign-in");
 
   return (
     <div className="min-h-screen xl:flex">

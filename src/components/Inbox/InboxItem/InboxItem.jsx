@@ -1,14 +1,42 @@
 import React from "react";
 
-const InboxItem = ({ icon, title, sum }) => {
-  const Icon = icon;
+const InboxItem = ({ icon, title, sum, active, label }) => {
+  const Icon = icon
+  const LabelIcon = label?.icon;
+
   return (
-    <div className="flex items-center justify-between p-2.5 rounded-lg w-full hover:bg-brand-200 group">
+    <div
+      className={`flex items-center justify-between p-2.5 rounded-lg w-full hover:bg-brand-200 group ${
+        active && "bg-brand-200"
+      }`}
+    >
       <div className="flex items-center gap-3">
-        <Icon className="size-5 text-gray-500 group-hover:text-brand-500" />
-        <span className="text-sm text-gray-700 group-hover:text-brand-600">{title}</span>
+        {!label ? (
+          <Icon
+            className={`size-5 group-hover:text-brand-500 ${
+              active ? "text-brand-500" : "text-gray-500"
+            }`}
+          />
+        ) : (
+          <LabelIcon
+            className={`${label.color} rotate-[135deg] size-3.5`}
+          />
+        )}
+        <span
+          className={`text-sm group-hover:text-brand-600 ${
+            active ? "text-brand-600" : "text-gray-700"
+          }`}
+        >
+          {title}
+        </span>
       </div>
-      <span className="text-sm text-gray-700 group-hover:text-brand-600">{sum}</span>
+      <span
+        className={`text-sm group-hover:text-brand-600 ${
+          active ? "text-brand-600" : "text-gray-700"
+        }`}
+      >
+        {sum}
+      </span>
     </div>
   );
 };

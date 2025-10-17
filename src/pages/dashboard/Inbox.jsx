@@ -1,16 +1,5 @@
-import ArchiveItem from "@/components/Inbox/InboxItem/ArchiveItem";
-import BlankItem from "@/components/Inbox/InboxItem/BlankItem";
-import DraftsItem from "@/components/Inbox/InboxItem/DraftsItem";
-import ImportantItem from "@/components/Inbox/InboxItem/ImportantItem";
-import InboxItem from "@/components/Inbox/InboxItem/InboxItem";
-import InvoiceItem from "@/components/Inbox/InboxItem/InvoiceItem";
-import PaymentItem from "@/components/Inbox/InboxItem/PaymentItem";
-import PersonalItem from "@/components/Inbox/InboxItem/PersonalItem";
-import SentItem from "@/components/Inbox/InboxItem/SentItem";
-import SpamItem from "@/components/Inbox/InboxItem/SpamItem";
-import StarredItem from "@/components/Inbox/InboxItem/StarredItem";
-import TrashItem from "@/components/Inbox/InboxItem/TrashItem.";
-import WorkItem from "@/components/Inbox/InboxItem/WorkItem";
+import React, { useState } from "react";
+import InboxContentHeader from "@/components/Inbox/InboxContent/InboxContentHeader";
 import Button from "@/components/ui/button/Button";
 import { Trash2Icon } from "lucide-react";
 import { SendHorizontalIcon } from "lucide-react";
@@ -20,9 +9,93 @@ import { StarIcon } from "lucide-react";
 import { Mail } from "lucide-react";
 import { MailboxIcon } from "lucide-react";
 import { Pencil } from "lucide-react";
-import React from "react";
+
+import InboxItem from "@/components/Inbox/InboxItem/InboxItem";
+import { MailIcon } from "lucide-react";
+import InboxContents from "@/components/Inbox/InboxContent/InboxContents";
 
 const ChatLayout = () => {
+  const [activeTab, setActiveTab] = useState("inbox");
+
+  const tabItems = [
+    {
+      title: "Inbox",
+      icon: MailboxIcon,
+      sum: 3,
+    },
+    {
+      title: "Sent",
+      icon: SendHorizontalIcon,
+      sum: "",
+    },
+    {
+      title: "Drafts",
+      icon: Mail,
+      sum: "",
+    },
+    {
+      title: "Spam",
+      icon: MailboxIcon,
+      sum: "2",
+    },
+    {
+      title: "Trash",
+      icon: Trash2Icon,
+      sum: "",
+    },
+    {
+      title: "Archive",
+      icon: ArchiveIcon,
+      sum: "",
+    },
+    {
+      title: "Starred",
+      icon: StarIcon,
+      sum: "",
+    },
+    {
+      title: "Important",
+      icon: MailboxIcon,
+    },
+    {
+      title: "Personal",
+      label: {
+        icon: Tag,
+        color: "fill-emerald-500 text-emerald-500",
+      },
+    },
+    {
+      title: "Work",
+      label: {
+        icon: Tag,
+        color: "fill-red-500 text-red-500",
+      },
+    },
+    {
+      title: "Payment",
+      label: {
+        icon: Tag,
+        color: "fill-orange-500 text-orange-500",
+      },
+    },
+    {
+      title: "Invoice",
+      label: {
+        icon: Tag,
+        color: "fill-sky-500 text-sky-500",
+      },
+    },
+    {
+      title: "Blank",
+      label: {
+        icon: Tag,
+        color: "fill-brand-500 text-brand-500",
+      },
+    },
+  ];
+
+  // Helper to manage active item styling
+
   return (
     <div className="p-4 mx-auto max-w-[--breakpoint-2xl] md:p-6">
       {/* Main layout */}
@@ -61,62 +134,47 @@ const ChatLayout = () => {
                 </button>
                 <div className="space-y-2 w-full overflow-y-auto h-[calc(100vh-250px)]">
                   <h2 className="uppercase text-xs">Mailbox</h2>
-
-                  <div>
-                    <InboxItem title="Inbox" icon={MailboxIcon} sum={3} />
-                  </div>
-
-                  <div>
-                    <SentItem title="Sent" icon={SendHorizontalIcon} />
-                  </div>
-
-                  <div>
-                    <DraftsItem title="Drafts" icon={Mail} />
-                  </div>
-
-                  <div>
-                    <SpamItem title="Spam" icon={MailboxIcon} sum={2} />
-                  </div>
-
-                  <div>
-                    <TrashItem title="Trash" icon={Trash2Icon} />
-                  </div>
-
-                  <div>
-                    <ArchiveItem title="Archive" icon={ArchiveIcon} />
-                  </div>
-
-                  <h2 className="uppercase text-xs">Filter</h2>
-
-                  <div>
-                    <StarredItem title="Starred" icon={StarIcon} />
-                  </div>
-
-                  <div>
-                    <ImportantItem title="Important" icon={MailboxIcon} />
-                  </div>
-
+                  {tabItems.slice(0, 6).map((item, index) => {
+                    const tab = item.title.toLowerCase();
+                    return (
+                      <div onClick={() => setActiveTab(tab)} key={index}>
+                        <InboxItem
+                          title={item.title}
+                          icon={item.icon}
+                          sum={item.sum}
+                          active={activeTab == tab}
+                        />
+                      </div>
+                    );
+                  })}
+                  <h2 className="uppercase text-xs ">Filter</h2>
+                  {tabItems.slice(6, 8).map((item, index) => {
+                    const tab = item.title.toLowerCase();
+                    return (
+                      <div onClick={() => setActiveTab(tab)} key={index}>
+                        <InboxItem
+                          title={item.title}
+                          icon={item.icon}
+                          sum={item.sum}
+                          active={activeTab == tab}
+                        />
+                      </div>
+                    );
+                  })}
                   <h2 className="uppercase text-xs">Label</h2>
-
-                  <div>
-                    <PersonalItem title="Personal" icon={Tag} />
-                  </div>
-
-                  <div>
-                    <WorkItem title="Work" icon={Tag} />
-                  </div>
-
-                  <div>
-                    <PaymentItem title="Payment" icon={Tag} />
-                  </div>
-
-                  <div>
-                    <InvoiceItem title="Invoice" icon={Tag} />
-                  </div>
-
-                  <div>
-                    <BlankItem title="Blank" icon={Tag} />
-                  </div>
+                  {tabItems.slice(8, 13).map((item, index) => {
+                    const tab = item.title.toLowerCase();
+                    return (
+                      <div onClick={() => setActiveTab(tab)} key={index}>
+                        <InboxItem
+                          title={item.title}
+                          label={item.label}
+                          sum={item.sum}
+                          active={activeTab == tab}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -124,16 +182,12 @@ const ChatLayout = () => {
 
           {/* Main Chat Area */}
           <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] xl:w-3/4">
-            <div className="sticky flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-800 xl:px-6">
-              <div className="flex items-center gap-3">
-                <div className="relative h-12 w-full max-w-[48px] rounded-full">
-                  
-                  
-                </div>
-                
-              </div>
-            </div>
             {/* Messages + input go here */}
+            <div className="overflow-y-auto h-[calc(150vh-250px)]">
+              <InboxContents
+                tab={activeTab}
+              />
+            </div>
           </div>
         </div>
       </div>
