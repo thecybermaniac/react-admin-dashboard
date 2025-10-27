@@ -15,8 +15,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
 import { useState } from "react";
+import Input from "@/components/Input";
+import { useDropzone } from "react-dropzone";
+import { useCallback } from "react";
 
 // Define the table data using the interface
 const tableData = [
@@ -69,6 +72,16 @@ const tableData = [
 
 const BasicTableOne = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [file, setFile] = useState(null);
+
+  const onDrop = useCallback((acceptedFiles) => {
+    setFile(acceptedFiles[0]);
+  }, []);
+
+  console.log("File: ", file);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
       <div className="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
@@ -211,14 +224,41 @@ const BasicTableOne = () => {
 
         {/* Add product sheet */}
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetContent className="bg-white">
+          <SheetContent className="bg-white min-w-[500px]">
             <SheetHeader>
-              <SheetTitle>Are you absolutely sure?</SheetTitle>
+              <SheetTitle>Add New Product</SheetTitle>
               <SheetDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
+                You can add a new product to your product collection.
               </SheetDescription>
             </SheetHeader>
+            <div className="px-4 flex flex-col gap-4">
+              <Input label="Name" type="text" placeholder="Macbook Pro 13" />
+              <Input label="Price" type="number" placeholder="$1000" />
+              <Input label="Category" type="text" placeholder="Laptop" />
+              <Input label="Rating" type="number" placeholder="5.5" />
+              <div
+                {...getRootProps()}
+                className="border-2 border-dashed p-4 rounded-md h-44"
+              >
+                <input {...getInputProps()} />
+                {file ? (
+                  <img
+                    src={URL.createObjectURL(file)}
+                    className="w-[100%] h-full object-cover"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center">
+                    <h2 className="text-md font-semibold text-gray-800">
+                      Upload Images
+                    </h2>
+                    <p className="text-xs text-gray-600">
+                      Drag and drop image files here, or click to upload
+                    </p>
+                  </div>
+                )}
+              </div>
+              <button type="button" className="bg-brand-500 w-full h-10 rounded-md text-white text-sm font-medium">Add Product</button>
+            </div>
           </SheetContent>
         </Sheet>
       </div>
