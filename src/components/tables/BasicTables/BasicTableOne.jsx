@@ -20,6 +20,7 @@ import { useState } from "react";
 import Input from "@/components/Input";
 import { useDropzone } from "react-dropzone";
 import { useCallback } from "react";
+import { createProduct } from "@/lib/actions/products.action";
 
 // Define the table data using the interface
 const tableData = [
@@ -73,14 +74,42 @@ const tableData = [
 const BasicTableOne = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [file, setFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    price: "",
+    category: "",
+    rating: "",
+  });
 
   const onDrop = useCallback((acceptedFiles) => {
     setFile(acceptedFiles[0]);
   }, []);
 
-  console.log("File: ", file);
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+  const handleSubmit = async () => {
+    const data = {
+      name: formData.name,
+      price: formData.price,
+      category: formData.category,
+      rating: formData.rating,
+      image: file,
+    };
+
+    setIsLoading(true);
+
+    try {
+      await createProduct(data);
+      console.log("Product added successfully");
+      setFormData({ name: "", price: "", category: "", rating: "" });
+      setFile(null);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
@@ -232,13 +261,57 @@ const BasicTableOne = () => {
               </SheetDescription>
             </SheetHeader>
             <div className="px-4 flex flex-col gap-4">
-              <Input label="Name" type="text" placeholder="Macbook Pro 13" />
-              <Input label="Price" type="number" placeholder="$1000" />
-              <Input label="Category" type="text" placeholder="Laptop" />
-              <Input label="Rating" type="number" placeholder="5.5" />
+              <Input
+                label="Name"
+                type="text"
+                placeholder="Macbook Pro 13"
+                value={formData.name}
+                onchange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }))
+                }
+              />
+              <Input
+                label="Price"
+                type="number"
+                placeholder="$1000"
+                value={formData.price}
+                onchange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    price: e.target.value,
+                  }))
+                }
+              />
+              <Input
+                label="Category"
+                type="text"
+                placeholder="Laptop"
+                value={formData.category}
+                onchange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    category: e.target.value,
+                  }))
+                }
+              />
+              <Input
+                label="Rating"
+                type="number"
+                placeholder="5.5"
+                value={formData.rating}
+                onchange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    rating: e.target.value,
+                  }))
+                }
+              />
               <div
                 {...getRootProps()}
-                className="border-2 border-dashed p-4 rounded-md h-44"
+                className="border-2 border-dashed p-4 rounded-md h-44 flex flex-col justify-center"
               >
                 <input {...getInputProps()} />
                 {file ? (
@@ -257,7 +330,14 @@ const BasicTableOne = () => {
                   </div>
                 )}
               </div>
-              <button type="button" className="bg-brand-500 w-full h-10 rounded-md text-white text-sm font-medium">Add Product</button>
+              <button
+                type="button"
+                className="bg-brand-500 w-full h-10 rounded-md text-white text-sm font-medium"
+                onClick={handleSubmit}
+                disabled={isLoading}
+              >
+                {isLoading ? "Adding..." : "Add Product"}
+              </button>
             </div>
           </SheetContent>
         </Sheet>

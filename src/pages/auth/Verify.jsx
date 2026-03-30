@@ -1,3 +1,5 @@
+"use client"; 
+
 import React from "react";
 import { useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
@@ -7,7 +9,7 @@ import { CheckCircle } from "lucide-react";
 
 const Verify = () => {
   const [param, setParam] = useSearchParams();
-  const userId = param.get("userId");
+  const userId = param.get("userId"); 
   const secret = param.get("secret");
 
   useEffect(() => {
